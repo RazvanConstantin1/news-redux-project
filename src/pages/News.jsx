@@ -1,7 +1,36 @@
 import React from "react";
 import styles from "../styles/News.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { clearNewsList, getNews } from "../features/newsSlice.jsx";
+import Card from "../components/Card.jsx";
 const News = () => {
-  return <div>News</div>;
+  const { newsList, loading, error } = useSelector((state) => state.news);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getNews());
+
+    return () => {
+      dispatch(clearNewsList());
+    };
+  }, [dispatch]);
+
+  return (
+    <div className={styles.newsWrapper}>
+      <h1>News</h1>
+      {error && <h1>{error}</h1>}
+      {loading && <h1>Loading...</h1>}
+      {!loading && (
+        <div className={styles.cardWrapper}>
+          {newsList.map((item, index) => (
+            <Card key={index} {...item} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default News;

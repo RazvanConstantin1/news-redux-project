@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { act } from "react";
+
 import { fetchNews } from "../apiCall/app.js";
 
 const initialState = {
